@@ -1,4 +1,4 @@
-package main
+package openapi_mcpgo
 
 import (
 	"encoding/json"

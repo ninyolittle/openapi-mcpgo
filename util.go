@@ -1,4 +1,4 @@
-package main
+package openapi_mcpgo
 
 type spec struct {
 	Swagger  string              `json:"swagger"`
