@@ -257,6 +257,8 @@ func getSchemaFromRef(doc *openapi2.T, ref string) *openapi2.Schema {
 	return r.Value
 }
 
+var nonAlnum = regexp.MustCompile(`[^a-zA-Z0-9]+`)
+
 func (o *OpenApiTools) buildTools() ([]server.ServerTool, error) {
 	tools := make([]server.ServerTool, 0)
 
@@ -279,7 +281,8 @@ func (o *OpenApiTools) buildTools() ([]server.ServerTool, error) {
 
 			toolName := operation.OperationID
 			if toolName == "" {
-				toolName = fmt.Sprintf("%s_%s", strings.ToLower(method), strings.ReplaceAll(path, "/", "_"))
+				a := fmt.Sprintf("%s_%s", strings.ToLower(method), strings.ReplaceAll(strings.Trim(path, "/"), "/", "_"))
+				toolName = strings.Trim(nonAlnum.ReplaceAllString(a, "_"), "_")
 			}
 
 			tools = append(tools, server.ServerTool{
