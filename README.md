@@ -1,6 +1,6 @@
 # openapi-mcpgo
 
-openapi-mcpgo is a Go library for generating OpenAPI specifications from Go code. It provides a set of tools and utilities that can be integrated into mcp-go servers to help developers create and maintain OpenAPI documentation for their APIs.
+openapi-mcpgo is a Go library that converts OpenAPI specifications into tools for [mcp-go](https://github.com/mark3labs/mcp-go). It automatically generates MCP tools from an OpenAPI document, allowing mcp-go servers to expose existing REST APIs with minimal setup.
 
 ## Create a new OpenAPI specification
 
