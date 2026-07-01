@@ -279,7 +279,7 @@ func (o *OpenApiTools) buildTools() ([]server.ServerTool, error) {
 
 			toolName := operation.OperationID
 			if toolName == "" {
-				toolName = fmt.Sprintf("%s_%s", method, path)
+				toolName = fmt.Sprintf("%s_%s", strings.ToLower(method), strings.ReplaceAll(path, "/", "_"))
 			}
 
 			tools = append(tools, server.ServerTool{
