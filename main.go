@@ -226,6 +226,7 @@ func (o *OpenApiTools) RegisterToMcpServer(server *server.MCPServer) error {
 		return err
 	}
 
+	log.Printf("%d tools registered in %s", len(tools), o.doc.Info.Title)
 	server.AddTools(tools...)
 	return nil
 }
