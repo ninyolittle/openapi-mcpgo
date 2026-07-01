@@ -94,7 +94,6 @@ func resolveBody(params []*openapi2.Parameter, args map[string]any) (io.Reader, 
 	if err != nil {
 		return nil, err
 	}
-	log.Printf("resolveBody: %v", m)
 
 	return bytes.NewReader(payload), nil
 }
@@ -123,7 +122,6 @@ func (o *OpenApiTools) buildHandler(
 	ctx context.Context,
 	req mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 	args := req.GetArguments()
-	log.Println(args)
 
 	fullURL := o.buildFullURL(path, operation, method, args)
 
@@ -188,7 +186,6 @@ func preprocessToolOpts(
 			*toolOpts = append(*toolOpts, mcp.WithObject(param.Name, propOpts...))
 		}
 	}
-	// log.Println(len(*toolOpts))
 }
 
 func schemaToJsonSchema(doc *openapi2.T, schema *openapi2.Schema) map[string]any {
