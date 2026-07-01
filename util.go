@@ -135,7 +135,10 @@ func (o *OpenApiTools) buildHandler(
 	if err != nil {
 		return nil, err
 	}
-	headers := o.headers(ctx)
+	headers, err := o.headers(ctx)
+	if err != nil {
+		return nil, err
+	}
 	for key, value := range headers {
 		httpReq.Header.Set(key, value)
 	}

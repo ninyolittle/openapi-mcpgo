@@ -18,7 +18,7 @@ type OpenApiTools struct {
 
 	urlBuilder func(operation *openapi2.Operation, method string, scheme, host, basePath, path, query string) string
 	scheme     string
-	headers    func(ctx context.Context) map[string]string
+	headers    func(ctx context.Context) (map[string]string, error)
 }
 
 func (o *OpenApiTools) PrintOperationIds() {
@@ -190,12 +190,13 @@ func WithUrlBuilder(urlBuilder func(operation *openapi2.Operation, method string
 //	    	}
 //		}),
 //	)
-func WithHeaders(provider func(ctx context.Context) map[string]string) option {
+func WithHeaders(provider func(ctx context.Context) (map[string]string, error)) option {
 	return func(o *OpenApiTools) {
 		o.headers = provider
 	}
 }
 
+// GetDoc returns the OpenAPI specification document associated with the OpenApiTools instance.
 func (o *OpenApiTools) GetDoc() *openapi2.T {
 	return o.doc
 }
