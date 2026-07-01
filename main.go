@@ -1,6 +1,7 @@
 package openapi_mcpgo
 
 import (
+	"context"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -17,7 +18,7 @@ type OpenApiTools struct {
 
 	urlBuilder func(operation *openapi2.Operation, method string, scheme, host, basePath, path, query string) string
 	scheme     string
-	headers    map[string]string
+	headers    func(ctx context.Context) map[string]string
 }
 
 func (o *OpenApiTools) PrintOperationIds() {
@@ -182,14 +183,16 @@ func WithUrlBuilder(urlBuilder func(operation *openapi2.Operation, method string
 //
 //	o := NewOpenApiSpec(
 //		LoadFromURL("https://example.com/api-docs.json"),
-//		WithHeaders(map[string]string{
-//	    	"Authorization": "Bearer <token>",
-//	    	"Content-Type":  "application/json",
+//		WithHeaders(func(ctx context.Context) map[string]string {
+//	    	return map[string]string{
+//	    		"Authorization": "Bearer <token>",
+//	    		"Content-Type":  "application/json",
+//	    	}
 //		}),
 //	)
-func WithHeaders(provider HeaderProvider) option {
+func WithHeaders(provider func(ctx context.Context) map[string]string) option {
 	return func(o *OpenApiTools) {
-		o.headers = provider.GetHeaders()
+		o.headers = provider
 	}
 }
 
