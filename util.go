@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"maps"
@@ -276,12 +277,17 @@ func (o *OpenApiTools) buildTools() ([]server.ServerTool, error) {
 
 			preprocessToolOpts(o.doc, &toolOpts, operation)
 
+			toolName := operation.OperationID
+			if toolName == "" {
+				toolName = fmt.Sprintf("%s_%s", method, path)
+			}
+
 			tools = append(tools, server.ServerTool{
 				Handler: func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 					return o.buildHandler(
 						path, operation, method, ctx, request)
 				},
-				Tool: mcp.NewTool(operation.OperationID, toolOpts...),
+				Tool: mcp.NewTool(toolName, toolOpts...),
 			})
 
 		}
