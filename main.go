@@ -183,14 +183,13 @@ func WithUrlBuilder(urlBuilder func(operation *openapi2.Operation, method string
 //	o := NewOpenApiSpec(
 //		LoadFromURL("https://example.com/api-docs.json"),
 //		WithHeaders(map[string]string{
-//	    	"Authorization": "Bearer YOUR_TOKEN",
-//	    	"Custom-Header": "CustomValue",
+//	    	"Authorization": "Bearer <token>",
+//	    	"Content-Type":  "application/json",
 //		}),
-//
-// )
-func WithHeaders(headers map[string]string) option {
+//	)
+func WithHeaders(provider HeaderProvider) option {
 	return func(o *OpenApiTools) {
-		o.headers = headers
+		o.headers = provider.GetHeaders()
 	}
 }
 
